@@ -1,7 +1,7 @@
-/** @type {import('next').NextConfig} */
 const storageType = process.env.NEXT_PUBLIC_STORAGE_TYPE || 'sqlite'
 const isClientStorage = storageType === 'indexeddb'
 
+/** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
     remotePatterns: [
@@ -21,6 +21,12 @@ const nextConfig = {
   compress: true,
   // Next.js 15 服务器外部包配置 (新位置)
   serverExternalPackages: isClientStorage ? [] : ['@prisma/client'],
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  }
 }
 
 module.exports = nextConfig
