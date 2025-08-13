@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Email {
+  id          String   @id @default(cuid())
+  title       String
+  content     String   // HTML content from unlayer
+  design      String   // JSON design data from unlayer
+  preview     String?  // Base64 preview image
+  status      EmailStatus @default(DRAFT)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("emails")
+}
+
+model EmailProvider {
+  id         String   @id @default(cuid())
+  name       String   @unique
+  type       ProviderType
+  config     String   // JSON configuration data
+  senderEmail String   // Sender email address
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("email_providers")
+}
+
+enum EmailStatus {
+  DRAFT
+  PUBLISHED
+  UNPUBLISHED
+}
+
+model EmailDesign {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String
+  thumbnail   String
+  design      String   // JSON design data from unlayer
+  isActive    Boolean  @default(true)
+  isSystem    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("email_designs")
+}
+
+enum ProviderType {
+  SMTP
+  SENDGRID
+  MAILGUN
+  AWS_SES
+}
