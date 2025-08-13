@@ -11,10 +11,16 @@ const nextConfig = {
         port: '3032',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: '*.vercel.app',
+        pathname: '/**',
+      },
     ],
     ...(isClientStorage && { unoptimized: true })
   },
-  output: 'standalone',
+  // 在 Vercel 上使用默认输出模式，在本地开发使用 standalone
+  output: process.env.VERCEL ? undefined : 'standalone',
   // React 19 优化
   reactStrictMode: true,
   // 启用 gzip 压缩

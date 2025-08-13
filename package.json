@@ -8,12 +8,15 @@
     "build:client": "NEXT_PUBLIC_STORAGE_TYPE=indexeddb next build",
     "build:server": "NEXT_PUBLIC_STORAGE_TYPE=sqlite next build",
     "build:mysql": "NEXT_PUBLIC_STORAGE_TYPE=mysql next build",
+    "build:vercel": "NEXT_PUBLIC_STORAGE_TYPE=indexeddb next build",
     "start": "next start",
     "lint": "next lint",
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
     "db:migrate": "prisma migrate dev",
-    "db:seed": "tsx prisma/seed.ts"
+    "db:seed": "tsx prisma/seed.ts",
+    "postinstall": "prisma generate",
+    "vercel:check": "node scripts/check-vercel-ready.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",

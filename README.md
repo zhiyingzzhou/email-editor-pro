@@ -189,6 +189,59 @@ chmod +x scripts/docker-prod.sh
 3. **数据库索引**: 关键字段建立索引
 4. **懒加载**: 组件按需加载
 
+## 部署
+
+### Vercel 部署 (推荐)
+
+项目已针对 Vercel 部署进行优化，支持零配置部署：
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/your-username/your-repo)
+
+#### 快速部署步骤
+
+1. **检查部署就绪状态**：
+   ```bash
+   npm run vercel:check
+   ```
+
+2. **推送代码到 Git**：
+   ```bash
+   git add .
+   git commit -m "Ready for Vercel deployment"
+   git push origin main
+   ```
+
+3. **在 Vercel 上部署**：
+   - 访问 [vercel.com](https://vercel.com)
+   - 导入 Git 仓库
+   - 设置环境变量：`NEXT_PUBLIC_STORAGE_TYPE=indexeddb`
+   - 部署
+
+#### Vercel 部署特性
+
+- **零服务器数据库**：使用浏览器 IndexedDB 存储
+- **免费托管**：利用 Vercel 的免费计划
+- **自动 HTTPS**：内置 SSL 证书
+- **CDN 加速**：全球内容分发网络
+
+详细部署指南请查看 [`VERCEL_DEPLOYMENT.md`](./VERCEL_DEPLOYMENT.md)
+
+### Docker 部署
+
+#### 开发环境
+
+```bash
+# 启动开发环境
+./scripts/docker-dev.sh
+```
+
+#### 生产环境
+
+```bash
+# 构建和启动生产环境
+./scripts/docker-prod.sh
+```
+
 ## 故障排除
 
 ### 常见问题
