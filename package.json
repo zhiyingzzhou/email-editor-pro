@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "NEXT_PUBLIC_STORAGE_TYPE=indexeddb next dev -p 3032",
+    "dev": "NEXT_PUBLIC_STORAGE_TYPE=sqlite next dev -p 3032",
     "build": "next build",
     "build:client": "NEXT_PUBLIC_STORAGE_TYPE=indexeddb next build",
     "build:server": "NEXT_PUBLIC_STORAGE_TYPE=sqlite next build",
