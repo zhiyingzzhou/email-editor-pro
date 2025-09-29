@@ -40,6 +40,7 @@ import {
   Settings,
   Power,
   PowerOff,
+  Download,
 } from "lucide-react";
 import Link from "next/link";
 import { ApiAdapter } from "@/lib/api-adapter";
@@ -228,6 +229,40 @@ export default function EmailListPage() {
     setPreviewImageOpen(true);
   };
 
+  const handleDownloadEmail = (email: Email) => {
+    try {
+      // Create a blob with the HTML content
+      const blob = new Blob([email.content], { type: 'text/html' });
+      
+      // Create a temporary URL for the blob
+      const url = URL.createObjectURL(blob);
+      
+      // Create a temporary anchor element to trigger download
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${email.title || 'email-template'}.html`;
+      
+      // Append to body, click, and remove
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      // Clean up the URL object
+      URL.revokeObjectURL(url);
+      
+      toast({
+        title: "邮件模板下载成功",
+        variant: "success"
+      });
+    } catch (error) {
+      console.error("下载邮件模板失败:", error);
+      toast({
+        title: "下载邮件模板失败",
+        variant: "destructive"
+      });
+    }
+  };
+
   const getStatusBadge = (status: string) => {
     const styles = {
       DRAFT: "bg-muted text-muted-foreground border-muted",
@@ -372,6 +407,23 @@ export default function EmailListPage() {
                           </TooltipTrigger>
                           <TooltipContent>
                             <p>复制邮件模板</p>
+                          </TooltipContent>
+                        </Tooltip>
+
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="h-8 w-8 p-0"
+                              onClick={() => handleDownloadEmail(email)}
+                            >
+                              <Download className="h-4 w-4" />
+                              <span className="sr-only">下载</span>
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>下载邮件模板</p>
                           </TooltipContent>
                         </Tooltip>
 
