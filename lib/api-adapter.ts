@@ -75,7 +75,8 @@ export class ApiAdapter {
     
     const response = await fetch('/api/design-manager')
     if (!response.ok) throw new Error('Failed to fetch designs')
-    return await response.json()
+    const result = await response.json()
+    return result.data || []
   }
 
   static async getEmailDesign(id: string) {
@@ -86,7 +87,8 @@ export class ApiAdapter {
     
     const response = await fetch(`/api/design-manager/${id}`)
     if (!response.ok) throw new Error('Failed to fetch design')
-    return await response.json()
+    const result = await response.json()
+    return result.data || null
   }
 
   static async createEmailDesign(data: any) {
@@ -101,7 +103,8 @@ export class ApiAdapter {
       body: JSON.stringify(data)
     })
     if (!response.ok) throw new Error('Failed to create design')
-    return await response.json()
+    const result = await response.json()
+    return result.data || null
   }
 
   static async updateEmailDesign(id: string, data: any) {
@@ -116,7 +119,8 @@ export class ApiAdapter {
       body: JSON.stringify(data)
     })
     if (!response.ok) throw new Error('Failed to update design')
-    return await response.json()
+    const result = await response.json()
+    return result.data || null
   }
 
   static async deleteEmailDesign(id: string) {

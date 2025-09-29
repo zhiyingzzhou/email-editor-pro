@@ -8,6 +8,8 @@ WORKDIR /app
 
 # 复制 package.json 和 package-lock.json (如果存在)
 COPY package.json package-lock.json* ./
+# 复制 prisma schema 文件以便 postinstall 脚本可以运行
+COPY prisma ./prisma
 RUN npm ci
 
 # 构建应用
@@ -16,8 +18,8 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# 生成 Prisma 客户端
-RUN npx prisma generate
+# 检查文件是否存在并生成 Prisma 客户端
+RUN ls -la prisma/ && npx prisma generate
 
 # 构建 Next.js 应用
 RUN npm run build:server

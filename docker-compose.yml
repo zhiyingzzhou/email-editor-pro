@@ -4,7 +4,7 @@ services:
   app:
     build: .
     ports:
-      - "3000:3000"
+      - "3060:3000"
     environment:
       - DATABASE_URL=file:/app/data/dev.db
       - NEXTAUTH_SECRET=your-secret-key-change-in-production
@@ -16,7 +16,7 @@ services:
 
   db-init:
     build: .
-    command: sh -c "npx prisma db push && npx prisma db seed"
+    command: sh -c "ls -la prisma/ && npx prisma db push && npx prisma db seed"
     environment:
       - DATABASE_URL=file:/app/data/dev.db
     volumes:
