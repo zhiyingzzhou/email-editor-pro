@@ -8,6 +8,9 @@ import { SubmissionProgress } from "@/components/SubmissionProgress";
 import { ImportDesignDialog } from "@/components/ImportDesignDialog";
 import { useEmailEditor } from "@/hooks/useEmailEditor";
 import { Email } from "@/types";
+import { Button } from "@/components/ui/button";
+import { Download } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface EmailEditorPageProps {
   email?: Email | null;
@@ -41,6 +44,7 @@ export function EmailEditorPage({
     handleSelectTemplate,
     handleImportDesign,
     handleImportDesignFromDialog,
+    handleExportHtml,
   } = useEmailEditor({ email, isEditMode });
 
   useEffect(() => {
@@ -69,12 +73,31 @@ export function EmailEditorPage({
         isEditMode={isEditMode}
       />
 
-      <div className="flex-1 overflow-hidden">
+      <div className="flex-1 overflow-hidden relative">
         <EmailEditorWrapper
           ref={emailEditorRef}
           onReady={onReady}
           onLoad={onLoad}
         />
+        
+        {/* 导出HTML悬浮按钮 */}
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                onClick={handleExportHtml}
+                size="sm"
+                className="fixed bottom-6 right-6 z-40 h-12 w-12 rounded-full shadow-lg hover:shadow-xl transition-shadow"
+                disabled={saving}
+              >
+                <Download className="h-5 w-5" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="left">
+              <p>导出HTML</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
 
       <TestSendDialog

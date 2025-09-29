@@ -343,6 +343,37 @@ export function useEmailEditor({ email, isEditMode = false }: UseEmailEditorProp
     }
   }, [setImporting, setImportDialogOpen])
 
+  const handleExportHtml = useCallback(() => {
+    if (!emailEditorRef.current?.editor) {
+      toast({
+        title: '邮件编辑器未准备就绪',
+        variant: 'destructive'
+      })
+      return
+    }
+
+    emailEditorRef.current.editor.exportHtml((data: ExportHtmlResult) => {
+      const { html } = data
+      const { title } = titleForm.getValues()
+      
+      // 创建下载链接
+      const blob = new Blob([html], { type: 'text/html;charset=utf-8' })
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = `${title || '邮件模板'}.html`
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      URL.revokeObjectURL(url)
+
+      toast({
+        title: 'HTML导出成功',
+        variant: 'success'
+      })
+    })
+  }, [titleForm, toast])
+
   return {
     // 表单控制器
     titleForm,
@@ -370,6 +401,7 @@ export function useEmailEditor({ email, isEditMode = false }: UseEmailEditorProp
     handleSendTest,
     handleSelectTemplate,
     handleImportDesign,
-    handleImportDesignFromDialog
+    handleImportDesignFromDialog,
+    handleExportHtml
   }
 }

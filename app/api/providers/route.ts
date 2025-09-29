@@ -10,7 +10,6 @@ export async function GET() {
         createdAt: 'desc'
       }
     })
-    
     return NextResponse.json(providers)
   } catch (error) {
     console.error('获取服务商列表失败:', error)
